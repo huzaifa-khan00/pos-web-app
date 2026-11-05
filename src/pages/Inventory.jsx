@@ -10,10 +10,10 @@ export default function Inventory() {
   const [tab, setTab] = useState('products');
   return (
     <div className="space-y-3 p-3">
-      <div className="flex gap-2">
+      <div className="flex gap-1.5 overflow-x-auto">
         {['products', 'categories', 'units', 'adjustments'].map((t) => (
           <button key={t} onClick={() => setTab(t)}
-            className={`rounded-lg px-4 py-2 text-sm font-semibold capitalize ${tab === t ? 'bg-slate-800 text-white dark:bg-amber-500 dark:text-slate-900' : 'bg-white dark:bg-slate-800'}`}>{t}</button>
+            className={`whitespace-nowrap rounded-md border px-3.5 py-2 text-sm font-medium capitalize ${tab === t ? 'border-brand-600 bg-brand-600 text-white' : 'border-slate-200 bg-white text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300'}`}>{t}</button>
         ))}
       </div>
       {tab === 'products' && <Products />}
@@ -46,7 +46,7 @@ function Products() {
         <Btn onClick={() => setEdit({ id: ID(), name: '', sku: '', category: categories[0]?.id || '', cost: 0, price: 0, tax: 0, stock: 0, reorder: 0, unit: 'pcs', type: 'standard', components: [], isNew: true })}><Plus size={14} /> Add</Btn>
       </>}>
       <Input placeholder="Search name or SKU" value={q} onChange={(e) => setQ(e.target.value)} className="mb-3 max-w-sm" />
-      <Table head={['Name', 'SKU', 'Category', 'Cost', 'Price', 'Tax', 'Stock', 'Reorder', 'Type', '']} empty={!rows.length && 'No products.'}>
+      <Table head={['Name', 'SKU', 'Category', 'Cost', 'Price', 'Tax', 'Stock', 'Reorder', 'Type', '']} hide={[2, 3, 4, 6, 8, 9]} empty={!rows.length && 'No products.'}>
         {rows.map((p) => {
           const stock = stockOf(p, products);
           const isLow = p.type !== 'composite' && p.stock <= p.reorder;
@@ -60,9 +60,9 @@ function Products() {
               <td>{p.type === 'composite' ? '-' : p.reorder}</td>
               <td><Badge tone={p.type === 'composite' ? 'amber' : 'slate'}>{p.type}</Badge></td>
               <td className="whitespace-nowrap text-right">
-                {p.type !== 'composite' && <button title="Adjust stock" onClick={() => setAdj(p)} className="p-1 text-slate-500 hover:text-amber-500"><SlidersHorizontal size={16} /></button>}
-                <button onClick={() => setEdit(p)} className="p-1 text-slate-500 hover:text-amber-500"><Pencil size={16} /></button>
-                <button onClick={() => confirm(`Delete ${p.name}?`) && (remove('products', p.id), notify('Product deleted'))} className="p-1 text-slate-500 hover:text-red-500"><Trash2 size={16} /></button>
+                {p.type !== 'composite' && <button title="Adjust stock" onClick={() => setAdj(p)} className="p-2 text-slate-500 hover:text-brand-600"><SlidersHorizontal size={16} /></button>}
+                <button onClick={() => setEdit(p)} className="p-2 text-slate-500 hover:text-brand-600"><Pencil size={16} /></button>
+                <button onClick={() => confirm(`Delete ${p.name}?`) && (remove('products', p.id), notify('Product deleted'))} className="p-2 text-slate-500 hover:text-red-500"><Trash2 size={16} /></button>
               </td>
             </tr>
           );
@@ -116,7 +116,7 @@ function ProductForm({ initial, onClose }) {
         </>}
       </div>
       {f.type === 'composite' && (
-        <div className="mt-4 rounded-lg border border-slate-200 p-3 dark:border-slate-700">
+        <div className="mt-4 rounded-lg border border-slate-200 p-3 dark:border-slate-800">
           <div className="mb-2 flex items-center justify-between">
             <b className="text-sm">Bundle components (stock deducted on sale)</b>
             <Btn v="ghost" onClick={() => others[0] && set('components', [...f.components, { productId: others[0].id, qty: 1 }])}><Plus size={14} /> Add</Btn>
@@ -171,7 +171,7 @@ function Adjustments() {
   const rows = [...stockLogs].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   return (
     <Card title="Stock adjustment log">
-      <Table head={['When', 'Product', 'Change', 'Reason', 'Note', 'By']} empty={!rows.length && 'No adjustments yet.'}>
+      <Table head={['When', 'Product', 'Change', 'Reason', 'Note', 'By']} hide={[5, 6]} empty={!rows.length && 'No adjustments yet.'}>
         {rows.map((l) => (
           <tr key={l.id}>
             <td>{fmtDate(l.createdAt)}</td>
@@ -195,7 +195,7 @@ function Categories() {
   };
   return (
     <Card title="Categories" actions={<Btn onClick={() => setEdit({ id: ID(), name: '', parentId: null, color: '#0ea5e9' })}><Plus size={14} /> Add</Btn>}>
-      <Table head={['Color', 'Name', 'Parent', 'Products', '']}>
+      <Table head={['Color', 'Name', 'Parent', 'Products', '']} hide={[3, 4]}>
         {categories.map((c) => (
           <tr key={c.id}>
             <td><span className="inline-block h-4 w-4 rounded" style={{ background: c.color }} /></td>
@@ -203,8 +203,8 @@ function Categories() {
             <td>{categories.find((x) => x.id === c.parentId)?.name || '-'}</td>
             <td>{products.filter((p) => p.category === c.id).length}</td>
             <td className="text-right">
-              <button onClick={() => setEdit(c)} className="p-1 text-slate-500 hover:text-amber-500"><Pencil size={16} /></button>
-              <button onClick={() => del(c)} className="p-1 text-slate-500 hover:text-red-500"><Trash2 size={16} /></button>
+              <button onClick={() => setEdit(c)} className="p-2 text-slate-500 hover:text-brand-600"><Pencil size={16} /></button>
+              <button onClick={() => del(c)} className="p-2 text-slate-500 hover:text-red-500"><Trash2 size={16} /></button>
             </td>
           </tr>
         ))}

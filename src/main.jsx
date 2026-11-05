@@ -12,7 +12,7 @@ class ErrorBoundary extends React.Component {
         <div className="p-8">
           <h1 className="text-xl font-bold text-red-600">Something went wrong</h1>
           <pre className="mt-3 whitespace-pre-wrap text-sm">{String(this.state.error)}</pre>
-          <button className="mt-4 rounded bg-amber-500 px-4 py-2 font-semibold" onClick={() => location.reload()}>Reload</button>
+          <button className="mt-4 rounded-md bg-brand-600 px-4 py-2 font-medium text-white" onClick={() => location.reload()}>Reload</button>
         </div>
       );
     return this.props.children;

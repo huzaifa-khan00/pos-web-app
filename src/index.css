@@ -3,8 +3,30 @@
 @tailwind utilities;
 
 html, body, #root { height: 100%; }
-body { @apply bg-slate-100 text-slate-900 antialiased; font-family: Inter, system-ui, sans-serif; }
-.dark body { @apply bg-slate-900 text-slate-100; }
+#root { height: 100dvh; }
+body {
+  @apply bg-slate-100 text-slate-900 antialiased;
+  font-variant-numeric: tabular-nums;
+  -webkit-tap-highlight-color: transparent;
+}
+.dark body { @apply bg-slate-950 text-slate-100; }
+button { touch-action: manipulation; }
+:focus-visible { outline: 2px solid #3f6df0; outline-offset: 2px; }
+input:focus-visible, select:focus-visible { outline: none; }
+
+/* On phones, tables can hide minor columns: <Table hide={[2,3]} /> */
+@media (max-width: 767px) {
+  .hide-c-1 :is(th, td):nth-child(1) { display: none; }
+  .hide-c-2 :is(th, td):nth-child(2) { display: none; }
+  .hide-c-3 :is(th, td):nth-child(3) { display: none; }
+  .hide-c-4 :is(th, td):nth-child(4) { display: none; }
+  .hide-c-5 :is(th, td):nth-child(5) { display: none; }
+  .hide-c-6 :is(th, td):nth-child(6) { display: none; }
+  .hide-c-7 :is(th, td):nth-child(7) { display: none; }
+  .hide-c-8 :is(th, td):nth-child(8) { display: none; }
+  .hide-c-9 :is(th, td):nth-child(9) { display: none; }
+  .hide-c-10 :is(th, td):nth-child(10) { display: none; }
+}
 
 @media print {
   body * { visibility: hidden !important; }

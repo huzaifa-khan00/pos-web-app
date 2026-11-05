@@ -24,15 +24,15 @@ export default function Suppliers() {
   return (
     <div className="p-3">
       <Card title="Suppliers" actions={<Btn onClick={() => setEdit({ id: ID(), name: '', contact: '', phone: '', email: '', taxId: '', isNew: true })}><Plus size={14} /> Add</Btn>}>
-        <Table head={['Name', 'Contact', 'Phone', 'Email', 'Tax / VAT ID', 'Outstanding', '']} empty={!suppliers.length && 'No suppliers.'}>
+        <Table head={['Name', 'Contact', 'Phone', 'Email', 'Tax / VAT ID', 'Outstanding', '']} hide={[2, 3, 4, 5]} empty={!suppliers.length && 'No suppliers.'}>
           {suppliers.map((s) => (
             <tr key={s.id}>
               <td className="font-medium">{s.name}</td><td>{s.contact}</td><td>{s.phone}</td><td>{s.email}</td><td>{s.taxId}</td>
               <td>{owed(s.id) > 0 ? <Badge tone="amber">{money(owed(s.id))}</Badge> : money(0)}</td>
               <td className="whitespace-nowrap text-right">
-                <button onClick={() => setView(s.id)} title="PO history" className="p-1 text-slate-500 hover:text-amber-500"><History size={16} /></button>
-                <button onClick={() => setEdit(s)} className="p-1 text-slate-500 hover:text-amber-500"><Pencil size={16} /></button>
-                <button onClick={() => del(s)} className="p-1 text-slate-500 hover:text-red-500"><Trash2 size={16} /></button>
+                <button onClick={() => setView(s.id)} title="PO history" className="p-2 text-slate-500 hover:text-brand-600"><History size={16} /></button>
+                <button onClick={() => setEdit(s)} className="p-2 text-slate-500 hover:text-brand-600"><Pencil size={16} /></button>
+                <button onClick={() => del(s)} className="p-2 text-slate-500 hover:text-red-500"><Trash2 size={16} /></button>
               </td>
             </tr>
           ))}
@@ -59,7 +59,7 @@ function History_({ id, onClose }) {
   const pos = purchaseOrders.filter((p) => p.supplierId === id).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   return (
     <Modal wide title={`${s?.name} — purchase history`} onClose={onClose}>
-      <Table head={['PO', 'Date', 'Status', 'Total', 'Paid', 'Due', 'Pay']} empty={!pos.length && 'No purchase orders.'}>
+      <Table head={['PO', 'Date', 'Status', 'Total', 'Paid', 'Due', 'Pay']} hide={[2, 3, 5]} empty={!pos.length && 'No purchase orders.'}>
         {pos.map((p) => (
           <tr key={p.id}>
             <td>{p.id}</td><td>{fmtDate(p.createdAt)}</td><td>{p.status}</td><td>{money(p.total)}</td><td>{money(p.paid)}</td>

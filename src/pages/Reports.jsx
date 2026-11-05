@@ -79,7 +79,7 @@ export default function Reports() {
             <div className="flex h-44 items-end gap-1">
               {m.hours.map((v, h) => (
                 <div key={h} className="flex flex-1 flex-col items-center justify-end" title={`${h}:00 — ${money(v)}`}>
-                  <div className="w-full rounded-t bg-amber-500" style={{ height: `${(v / maxH) * 100}%`, minHeight: v ? 2 : 0 }} />
+                  <div className="w-full rounded-t bg-brand-500" style={{ height: `${(v / maxH) * 100}%`, minHeight: v ? 2 : 0 }} />
                   <span className="mt-1 text-[9px] text-slate-500">{h}</span>
                 </div>
               ))}
@@ -89,10 +89,10 @@ export default function Reports() {
             {['cash', 'card', 'credit'].map((k) => (
               <div key={k} className="mb-3">
                 <div className="mb-1 flex justify-between text-sm"><span className="capitalize">{k === 'credit' ? 'Customer credit' : k}</span><b>{money(m.pay[k])}</b></div>
-                <div className="h-2 rounded bg-slate-200 dark:bg-slate-700"><div className="h-2 rounded bg-amber-500" style={{ width: `${(m.pay[k] / payTotal) * 100}%` }} /></div>
+                <div className="h-2 rounded bg-slate-200 dark:bg-slate-700"><div className="h-2 rounded bg-brand-500" style={{ width: `${(m.pay[k] / payTotal) * 100}%` }} /></div>
               </div>
             ))}
-            <hr className="my-3 border-slate-200 dark:border-slate-700" />
+            <hr className="my-3 border-slate-200 dark:border-slate-800" />
             <div className="flex justify-between text-sm"><span>Inventory cost value</span><b>{money(valuation.cost)}</b></div>
             <div className="flex justify-between text-sm"><span>Inventory retail value</span><b>{money(valuation.retail)}</b></div>
             <div className="flex justify-between text-sm"><span>Potential margin</span><b>{money(valuation.retail - valuation.cost)}</b></div>
@@ -114,7 +114,7 @@ export default function Reports() {
       </div>
 
       <Card title="Invoices in range" className="no-print">
-        <Table head={['Invoice', 'Time', 'Cashier', 'Total', 'Payment', 'Status', '']} empty={!inRange.length && 'No invoices.'}>
+        <Table head={['Invoice', 'Time', 'Cashier', 'Total', 'Payment', 'Status', '']} hide={[3, 5]} empty={!inRange.length && 'No invoices.'}>
           {[...inRange].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).map((s) => (
             <tr key={s.id}>
               <td className="font-medium">{s.number}</td><td>{fmtDate(s.createdAt)}</td>

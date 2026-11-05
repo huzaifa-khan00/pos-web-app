@@ -27,16 +27,16 @@ export default function Customers() {
     <div className="p-3">
       <Card title="Customers" actions={<Btn onClick={() => setEdit({ id: ID(), name: '', phone: '', email: '', balance: 0, creditLimit: 0, points: 0, redeemed: 0, isNew: true })}><Plus size={14} /> Add</Btn>}>
         <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search name or phone" className="mb-3 max-w-sm" />
-        <Table head={['Name', 'Phone', 'Balance owed', 'Credit limit', 'Points', '']} empty={!rows.length && 'No customers.'}>
+        <Table head={['Name', 'Phone', 'Balance owed', 'Credit limit', 'Points', '']} hide={[2, 4]} empty={!rows.length && 'No customers.'}>
           {rows.map((c) => (
             <tr key={c.id}>
               <td className="font-medium">{c.name}</td><td>{c.phone}</td>
               <td>{c.balance > 0 ? <Badge tone="red">{money(c.balance)}</Badge> : money(0)}</td>
               <td>{money(c.creditLimit)}</td><td>{c.points}</td>
               <td className="whitespace-nowrap text-right">
-                <button onClick={() => setView(c.id)} title="Account" className="p-1 text-slate-500 hover:text-amber-500"><BookOpen size={16} /></button>
-                <button onClick={() => setEdit(c)} className="p-1 text-slate-500 hover:text-amber-500"><Pencil size={16} /></button>
-                <button onClick={() => del(c)} className="p-1 text-slate-500 hover:text-red-500"><Trash2 size={16} /></button>
+                <button onClick={() => setView(c.id)} title="Account" className="p-2 text-slate-500 hover:text-brand-600"><BookOpen size={16} /></button>
+                <button onClick={() => setEdit(c)} className="p-2 text-slate-500 hover:text-brand-600"><Pencil size={16} /></button>
+                <button onClick={() => del(c)} className="p-2 text-slate-500 hover:text-red-500"><Trash2 size={16} /></button>
               </td>
             </tr>
           ))}
@@ -70,17 +70,17 @@ function Account({ id, onClose }) {
   return (
     <Modal wide title={`${c.name} — account`} onClose={onClose}>
       <div className="mb-4 grid gap-3 sm:grid-cols-2">
-        <div className="rounded-lg border border-slate-200 p-3 dark:border-slate-700">
-          <div className="text-xs uppercase text-slate-500">Balance owed</div>
-          <div className="text-xl font-bold">{money(c.balance)}</div>
+        <div className="rounded-lg border border-slate-200 p-3 dark:border-slate-800">
+          <div className="text-xs text-slate-500">Balance owed</div>
+          <div className="text-xl font-semibold">{money(c.balance)}</div>
           <div className="mt-2 flex gap-2">
             <Input type="number" min="0" value={pay} onChange={(e) => setPay(e.target.value)} placeholder="Payment amount" />
             <Btn v="ok" onClick={() => { settleCustomer(id, pay); setPay(''); notify('Payment recorded', 'ok'); }}>Receive</Btn>
           </div>
         </div>
-        <div className="rounded-lg border border-slate-200 p-3 dark:border-slate-700">
-          <div className="text-xs uppercase text-slate-500">Loyalty points</div>
-          <div className="text-xl font-bold">{c.points} <span className="text-sm font-normal text-slate-500">(redeemed {c.redeemed})</span></div>
+        <div className="rounded-lg border border-slate-200 p-3 dark:border-slate-800">
+          <div className="text-xs text-slate-500">Loyalty points</div>
+          <div className="text-xl font-semibold">{c.points} <span className="text-sm font-normal text-slate-500">(redeemed {c.redeemed})</span></div>
           <div className="mt-2 flex gap-2">
             <Input type="number" value={pts} onChange={(e) => setPts(e.target.value)} placeholder="+ add / − redeem" />
             <Btn onClick={() => { adjustPoints(id, Number(pts) || 0); setPts(''); }}>Adjust</Btn>

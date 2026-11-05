@@ -14,7 +14,7 @@ export default function Purchases() {
   return (
     <div className="p-3">
       <Card title="Purchase orders" actions={<Btn onClick={() => setCreate(true)}><Plus size={14} /> New PO</Btn>}>
-        <Table head={['PO #', 'Supplier', 'Date', 'Items', 'Total', 'Status', '']} empty={!rows.length && 'No purchase orders.'}>
+        <Table head={['PO #', 'Supplier', 'Date', 'Items', 'Total', 'Status', '']} hide={[3, 4]} empty={!rows.length && 'No purchase orders.'}>
           {rows.map((po) => (
             <tr key={po.id}>
               <td className="font-medium">{po.id}</td>
@@ -54,7 +54,7 @@ function CreatePO({ onClose }) {
 
   return (
     <Modal wide title="New purchase order" onClose={onClose}
-      footer={<><span className="mr-auto font-bold">Total {money(total)}</span><Btn v="ghost" onClick={onClose}>Cancel</Btn><Btn onClick={save}>Create</Btn></>}>
+      footer={<><span className="mr-auto font-semibold">Total {money(total)}</span><Btn v="ghost" onClick={onClose}>Cancel</Btn><Btn onClick={save}>Create</Btn></>}>
       <Field label="Supplier" className="mb-3"><Select value={supplierId} onChange={(e) => setSupplierId(e.target.value)}>
         {suppliers.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</Select></Field>
       {items.map((it, i) => (

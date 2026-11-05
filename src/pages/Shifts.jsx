@@ -50,7 +50,7 @@ export default function Shifts() {
       )}
 
       <Card title="Closed shifts (Z-reports)">
-        <Table head={['Closed', 'Cashier', 'Expected', 'Counted', 'Variance', '']} empty={!history.length && 'No closed shifts yet.'}>
+        <Table head={['Closed', 'Cashier', 'Expected', 'Counted', 'Variance', '']} hide={[2, 3, 4]} empty={!history.length && 'No closed shifts yet.'}>
           {history.map((s) => (
             <tr key={s.id}>
               <td>{fmtDate(s.closedAt)}</td>
@@ -111,7 +111,7 @@ function ZReport({ shift, onClose }) {
     <Modal title="Z-Report" onClose={onClose} footer={<><Btn v="ghost" onClick={onClose}>Close</Btn><Btn onClick={() => window.print()}><Printer size={14} /> Print</Btn></>}>
       <div className="overflow-x-auto rounded bg-slate-300 p-3">
         <div className="print-area mx-auto bg-white p-3 font-mono text-[12px] text-black" style={{ width: '80mm' }}>
-          <div className="text-center font-bold">{STORE_NAME}</div>
+          <div className="text-center font-semibold">{STORE_NAME}</div>
           <div className="text-center">Z-REPORT / SHIFT CLOSURE</div>
           <hr className="my-2 border-dashed border-black" />
           <div className={row}><span>Cashier</span><span>{st.users.find((u) => u.id === shift.cashierId)?.name}</span></div>
@@ -129,7 +129,7 @@ function ZReport({ shift, onClose }) {
           <div className={row}><span>Cash out</span><span>{sum.cashOut.toFixed(2)}</span></div>
           <div className={row}><span>Expected cash</span><span>{shift.expectedCash.toFixed(2)}</span></div>
           <div className={row}><span>Counted cash</span><span>{shift.countedCash.toFixed(2)}</span></div>
-          <div className={`${row} font-bold`}>
+          <div className={`${row} font-semibold`}>
             <span>{shift.variance < 0 ? 'SHORTAGE' : shift.variance > 0 ? 'OVERAGE' : 'VARIANCE'}</span>
             <span>{shift.variance.toFixed(2)}</span>
           </div>
